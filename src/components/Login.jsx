@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleLogin from 'react-google-login';
+import {GoogleLogin, useGoogleLogin} from '@react-oauth/google';
 import  { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
@@ -31,6 +31,11 @@ const Login = () => {
       })
     ***/
   }
+
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+    onError: error => console.log('Error: %o', error),
+  })
   return (
     <div className="flex justify-start items-center flex-col h-screen">
       <div className='relative w-full h-full'>
@@ -48,9 +53,7 @@ const Login = () => {
         <div className='p-5'>
           <img src={logo} width='130px' alt='logo' />
         </div>
-        <div className='shadow-2xl'>
-          <GoogleLogin 
-            clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+        {/* clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
             render={(renderProps) => (
               <button
                 type="button"
@@ -59,12 +62,22 @@ const Login = () => {
                 disabled={renderProps.disabled}
               >
                   <FcGoogle className="mr-4" />Sign in with Google
-                </button>
-            )}
+                </button> )} */}
+
+              {/* cookiePolicy='single_host_origin' */}
+        <div className='shadow-2xl'>
+          {/* <GoogleLogin
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
-            cookiePolicy='single_host_origin'
-          />
+            
+          /> */}
+          <button
+            type="button"
+            className='bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none'
+            onClick={()=> login()}
+          >
+            <FcGoogle className="mr-4" />Sign IN with Google
+          </button>
         </div>
       </div>
     </div>

@@ -1,41 +1,46 @@
 import React from 'react';
-import {GoogleLogin, useGoogleLogin} from '@react-oauth/google';
+import {GoogleOAuthProvider, GoogleLogin, useGoogleLogin} from '@react-oauth/google';
 import  { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
 import logo from '../assets/logowhite.png';
 import { client } from '../lib/client';
+import jwt_decode from 'jwt-decode';
 
 const Login = () => {
   const navigate = useNavigate();
 
   const responseGoogle = (response) => {
     console.log('*** Google Response %o', response);
+    const userObject = jwt_decode(response.credential);
+    console.log('&&&&%o', userObject);
+    
+    localStorage.setItem('user', JSON.stringify(userObject));
 
-    /*** 
-
-    localStorage.setItem('user', JSON.stringify(response.profileObj));
-
-    const { name, googeId, imageUrl } = response.profileObj;
+    const { name, sub, picture } = userObject;
 
     const doc = {
-      _id: googeId,
+      _id: sub,
       _type: 'user',
       userName: name,
-      image: imageUrl
+      image: picture
     }
 
     client.createIfNotExists(doc)
       .then(() => {
-        navigate('/', { replace: true })
+        //navigate('/', { replace: true })
       })
-    ***/
   }
 
-  const login = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
-    onError: error => console.log('Error: %o', error),
-  })
+  // const login = useGoogleLogin({
+  //   onSuccess: tokenResponse => {
+  //     console.log(tokenResponse);
+  //     //console.log('***creds=%o', tokenResponse.credentials);
+  //     //console.log('**** %o', jwt_decode(tokenResponse.access_token))
+  //   },
+  //   onError: error => console.log('Error: %o', error),
+  // })
+
   return (
     <div className="flex justify-start items-center flex-col h-screen">
       <div className='relative w-full h-full'>
@@ -53,7 +58,9 @@ const Login = () => {
         <div className='p-5'>
           <img src={logo} width='130px' alt='logo' />
         </div>
-        {/* clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+        <div className='shadow-2xl'>
+        <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}>
+          <GoogleLogin
             render={(renderProps) => (
               <button
                 type="button"
@@ -61,23 +68,14 @@ const Login = () => {
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
               >
-                  <FcGoogle className="mr-4" />Sign in with Google
-                </button> )} */}
-
-              {/* cookiePolicy='single_host_origin' */}
-        <div className='shadow-2xl'>
-          {/* <GoogleLogin
+                <FcGoogle className="mr-4" />Sign in with Google
+              </button>
+            )}
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
-            
-          /> */}
-          <button
-            type="button"
-            className='bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none'
-            onClick={()=> login()}
-          >
-            <FcGoogle className="mr-4" />Sign IN with Google
-          </button>
+            cookiePolicy='single_host_origin'
+          />
+          </GoogleOAuthProvider>
         </div>
       </div>
     </div>

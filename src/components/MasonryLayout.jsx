@@ -2,19 +2,26 @@ import React from 'react';
 import Masonry from 'react-masonry-css';
 import Pin from './Pin';
 
-const breahpointObj = {
+
+const MasonryLayout = ({ pins }) => {
+  console.log('***Pins %o', pins)
+  const breakpointObj = {
     default: 4,
     3000: 6,
     2000: 5,
     1200: 3,
     1000: 2,
-    500: 1,
-}
-const MasonryLayout = ({ pins }) => {
+    500: 1
+  }
+
   return (
-    <Masonry className='flex animate-slide-fwd' breakpointCols={breahpointObj}>
-        {pins?.map((pin) => <Pin key={pin._id} pin={pin} />)}
+    <Masonry className='flex animate-slide-fwd' breakpointCols={breakpointObj}>
+        {pins?.map((pin) => <Pin key={pin._id} pin={pin} className='w-max' />)}
+
+      {/* <div>MasonryLayout0</div> */}
     </Masonry>
+    // <div>Masonry Layout</div>
+    // <div>MasonryLayout test</div>
   )
 }
 

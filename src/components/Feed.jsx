@@ -23,15 +23,12 @@ const Feed = () => {
         });
 
     } else {
-      
-      
       client.fetch(feedQuery)
         .then((data) => {
           setPins(data);
           setLoading(false);
         });
-    }
-    
+    } 
     
   }, [categoryId])
 

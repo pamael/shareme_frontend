@@ -5,8 +5,9 @@ import { Link, Route, Routes } from 'react-router-dom';
 
 import { Sidebar, UserProfile } from '../components';
 import Pins from './Pins';
-//import { userQuery } from '../utils/data';
-//import { client } from '../lib/client';
+import { userQuery } from '../utils/data';
+import { client } from '../lib/client';
+import { fetchUser } from '../utils/fetchUser';
 import logo from '../assets/logo.png';
 
 const Home = () => {
@@ -14,16 +15,15 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const scrollRef = useRef(null);
 
-  //const userInfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  const userInfo = fetchUser();
   
   useEffect(() => {
-    //const query = userQuery(userInfo?.googleId);
+    const query = userQuery(userInfo?.sub);
 
-    setUser({userName: "John Doe", _id: "acfsffsfdsd", googleId:  "12345678", image: "https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/31/17/79/311779d6-bfe8-d8d5-4782-81bd4c5f01ea/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/246x0w.webp"});
-    // client.fetch(query)
-    //   .then((data) => {
-    //     setUser(data[0]);
-    //   })
+    client.fetch(query)
+      .then((data) => {
+        setUser(data[0]);
+      })
   }, []);
 
   return (    

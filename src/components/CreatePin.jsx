@@ -92,12 +92,18 @@ const CreatePin = ({ usser }) => {
                 </button>
               </div>
             )}
-
           </div>
         </div>
+        {/* <!-- Form --> */}
+        <div className='flex flex-1 flex-col gap-6 lg:p-5 mt-5 w-full'>
+          <input 
+            type='text'
+            value={title}
+            onChange={(e) => }
+          />
 
+        </div>
       </div>
-      CreatePin
     </div>
   )
 }

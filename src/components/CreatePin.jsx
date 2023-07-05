@@ -21,21 +21,14 @@ const CreatePin = ({ usser }) => {
 
   const uploadImage = (e) => {
     const { type, name } = e.target.files[0];
-    const allowedTypes = [
-      'image/png',
-      'image/jpg',
-      'image/svg'
-    ];
-
-    const isImageTypeAllowed  = 0 !== allowedTypes.findIndex((imageType) => {
-      return type == imageType;
-    });
-
-    if(isImageTypeAllowed) {
+    console.log(type, name);
+    const allowedTypes = ['image/png','image/jpg','image/svg'];
+    
+    if(0 == allowedTypes.findIndex((imageType) => type === imageType)) {
       setWrongImageType(false);
       setLoading(true);
 
-      client
+      client.assets
         .upload('image', e.target.files[0], { 
           contentType: type,
           fileName: name
@@ -87,7 +80,17 @@ const CreatePin = ({ usser }) => {
                 />
               </label>
             ):(
-              <p>something else</p>
+              <div className='relative h-full'>
+                <img src={imageAsset?.url} alt='uploaded-pic' className='h-full w-full' />
+                <button
+                  type='button'
+                  onClick={() => setImageAsset(null)}
+                  className='absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out'
+
+                >
+                  <MdDelete />
+                </button>
+              </div>
             )}
 
           </div>

@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { client } from '../lib/client';
 import Spinner from './Spinner';
 import { categories } from '../utils/data';
+import { fetchUser } from '../utils/fetchUser';
 
-const CreatePin = ({ usser }) => {
+const CreatePin = ({ user }) => {
   const [title, setTitle] = useState('');
   const [about, setAbout] = useState('');
   const [destination, setDestination] = useState('');
@@ -99,8 +100,39 @@ const CreatePin = ({ usser }) => {
           <input 
             type='text'
             value={title}
-            onChange={(e) => }
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder='Add your title'
+            className='outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2'
           />
+          {user && (
+            <div className='flex gap-2 my-2 items-center bg-white rounded-lg'>
+              <img 
+                src={user.image}
+                className='w-10 h-10 rounded-full'
+                alt="user-profile"
+              />
+              <p className='font-bold'>{user.userName}</p>
+            </div>
+          )}
+          <input 
+            type='text'
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+            placeholder='Add your description'
+            className='outline-none text-base sm:text-large border-b-2 border-gray-200 p-2'
+          />
+          <input 
+            type='text'
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            placeholder='Add destination link'
+            className='outline-none text-base sm:text-large border-b-2 border-gray-200 p-2'
+          />
+          <div className='flex flex-col'>
+            <div>
+              <p className='mb-2 font-semibold text-lg sm:text-xl'>Choose Pin Category</p>
+            </div>
+          </div>
 
         </div>
       </div>

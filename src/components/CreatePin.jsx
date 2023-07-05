@@ -15,9 +15,44 @@ const CreatePin = ({ usser }) => {
   const [fields, setFields] = useState(null);
   const [category, setCategory] = useState(null);
   const [imageAsset, setImageAsset] = useState(null);
-  const [wrongImageTpye, setWrongImageTpye] = useState(false);
+  const [wrongImageType, setWrongImageType] = useState(false);
 
   const navigate = useNavigate();
+
+  const uploadImage = (e) => {
+    const { type, name } = e.target.files[0];
+    const allowedTypes = [
+      'image/png',
+      'image/jpg',
+      'image/svg'
+    ];
+
+    const isImageTypeAllowed  = 0 !== allowedTypes.findIndex((imageType) => {
+      return type == imageType;
+    });
+
+    if(isImageTypeAllowed) {
+      setWrongImageType(false);
+      setLoading(true);
+
+      client
+        .upload('image', e.target.files[0], { 
+          contentType: type,
+          fileName: name
+        })
+        .then((document) => {
+          setImageAsset(document);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log('Image upload error ', error);
+        })
+    } else {
+      setWrongImageType(true);
+    }
+
+
+  }
 
   return (
     <div className='flex flex-col justify-center items-center mt-5 lg:h-4'>
@@ -30,7 +65,7 @@ const CreatePin = ({ usser }) => {
         <div className='bg-secondaryColor p-3 flex flex-0.7 w-full'>
           <div className='flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420'>
             {loading && <Spinner />}
-            {wrongImageTpye && <p>Wrong image type</p>}
+            {wrongImageType && <p>Wrong image type</p>}
             {!imageAsset ? (
               <label>
                 <div className='flex flex-col items-center justify-center h-full'>
@@ -40,8 +75,16 @@ const CreatePin = ({ usser }) => {
                     </p>
                     <p className='text-lg'>Click to upload</p>
                   </div>
-                  <p className='mt-32 text-gray-400'>Recommendation: use high quality images (GIF, TIFF, PNG)</p>
+                  <p className='mt-32 text-gray-400'>
+                    Use high quality images (GIF, TIFF, PNG)
+                  </p>
                 </div>
+                <input
+                  type='file'
+                  name="upload-image"
+                  onChange={uploadImage}
+                  className='w-0 h-0'
+                />
               </label>
             ):(
               <p>something else</p>

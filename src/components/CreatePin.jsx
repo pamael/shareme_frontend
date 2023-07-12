@@ -48,6 +48,18 @@ const CreatePin = ({ user }) => {
 
   }
 
+  const savePin = (e) => {
+    if (title && about && destination && imageAsset?._id && category) {
+      const doc = {
+        _type: 'pin',
+        title,
+        about,
+        destination
+      }
+
+    }
+  }
+
   return (
     <div className='flex flex-col justify-center items-center mt-5 lg:h-4'>
       {fields && (
@@ -131,6 +143,27 @@ const CreatePin = ({ user }) => {
           <div className='flex flex-col'>
             <div>
               <p className='mb-2 font-semibold text-lg sm:text-xl'>Choose Pin Category</p>
+              <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  className='outline-none w-4/5 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer'
+              >
+                <option value="other" className='bg-white'>Select Category</option>
+                {categories.map((category) => (
+                  <option className='text-base border-0 outline-none capitalize bt-white text-black' value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='flex justify-end items-end mt-5'>
+              <button 
+                  type='button'
+                  onClick={savePin}
+                  className='bg-red-500 text-white font-bold p-2 rounded-full w-28 outline-none'
+              >
+                Save Pin
+              </button>
+
             </div>
           </div>
 

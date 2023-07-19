@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { AiOutlineCloudDownload, AiOutlineCloudUpload } from 'react-icons/ai';
+import { /*AiOutlineCloudDownload,*/ AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 import { client } from '../lib/client';
 import Spinner from './Spinner';
-import { categories } from '../utils/data';
-import { fetchUser } from '../utils/fetchUser';
+import { categories } from '../utils/data.org';
+//import { fetchUser } from '../utils/fetchUser';
 
 const CreatePin = ({ user }) => {
   const [title, setTitle] = useState('');
@@ -25,7 +25,7 @@ const CreatePin = ({ user }) => {
     console.log(type, name);
     const allowedTypes = ['image/png','image/jpg','image/svg'];
     
-    if(0 == allowedTypes.findIndex((imageType) => type === imageType)) {
+    if(0 === allowedTypes.findIndex((imageType) => type === imageType)) {
       setWrongImageType(false);
       setLoading(true);
 
@@ -54,9 +54,30 @@ const CreatePin = ({ user }) => {
         _type: 'pin',
         title,
         about,
-        destination
+        destination,
+        image: {
+          _type: 'image',
+          asset: {
+            _type: 'reference',
+            _ref: imageAsset?._id
+          }
+        },
+        userId: user._id,
+        postedBy: {
+          _type: 'postedBy',
+          _ref: user._id,
+        },
+        category,
       }
 
+      client.create(doc)
+        .then(() => {
+          navigate('/')
+        })
+
+    } else {
+      setFields(true);
+      setTimeout(() => setFields(false), 2000);
     }
   }
 

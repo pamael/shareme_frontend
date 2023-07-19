@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, userParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { client } from '../lib/client';
 
 import MasonryLayout from './MasonryLayout';
 import Spinner from './Spinner';
-import { feedQuery, searchQuery } from '../utils/data';
+import { feedQuery, searchQuery } from '../utils/data.org';
 
 const Feed = () => {
   const [loading, setLoading] = useState(false);

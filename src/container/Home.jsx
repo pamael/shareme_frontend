@@ -5,7 +5,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 
 import { Sidebar, UserProfile } from '../components';
 import Pins from './Pins';
-import { userQuery } from '../utils/data';
+import { userQuery } from '../utils/data.org';
 import { client } from '../lib/client';
 import { fetchUser } from '../utils/fetchUser';
 import logo from '../assets/logo.png';
@@ -25,7 +25,7 @@ const Home = () => {
         setUser(data[0]);
         console.log('data[0]', data[0]);
       })
-  }, []);
+  });
 
   return (    
     <div className="flex bg-gray-50 md:flex-row flex-col h-screen transaction-height duration-75 ease-out">

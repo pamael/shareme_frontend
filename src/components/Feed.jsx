@@ -4,7 +4,7 @@ import { client } from '../lib/client';
 
 import MasonryLayout from './MasonryLayout';
 import Spinner from './Spinner';
-import { feedQuery, searchQuery } from '../utils/data.org';
+import { feedQuery, searchQuery } from '../utils/data';
 
 const Feed = () => {
   const [loading, setLoading] = useState(false);

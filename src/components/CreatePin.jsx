@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { client } from '../lib/client';
 import Spinner from './Spinner';
-import { categories } from '../utils/data.org';
+import { categories } from '../utils/data';
 //import { fetchUser } from '../utils/fetchUser';
 
 const CreatePin = ({ user }) => {
@@ -169,8 +169,8 @@ const CreatePin = ({ user }) => {
                   className='outline-none w-4/5 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer'
               >
                 <option value="other" className='bg-white'>Select Category</option>
-                {categories.map((category) => (
-                  <option className='text-base border-0 outline-none capitalize bt-white text-black' value={category.name}>
+                {categories.map((category, i) => (
+                  <option key={i} className='text-base border-0 outline-none capitalize bt-white text-black' value={category.name}>
                     {category.name}
                   </option>
                 ))}

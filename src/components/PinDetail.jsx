@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { MdDownloadForOffline } from 'react-icons/md';
 import { client, urlFor } from '../lib/client';
+import MasonryLayout from './MasonryLayout';
 
 const PinDetail = ({ user }) => {
   console.log('===',user);
@@ -64,6 +65,7 @@ const PinDetail = ({ user }) => {
   if(!pinDetail) return <Spinner message='Loading pin...' />;
 
   return (
+    <>
     <div className='flex xl-flex-row flex-col m-auto bg-white' style={{maxWidth: '1500px', borderRadius: '32px' }}>
       <div className='flex justify-center items-center md:items-start flex-initial'>
         <img 
@@ -150,6 +152,17 @@ const PinDetail = ({ user }) => {
         </div>
       </div>
     </div>
+    {pins?.length > 0 ? (
+      <>
+        <h2 className='text-center font-bold text-2l mt-8 mb-4'>
+          More like this
+        </h2>
+        <MasonryLayout pins={pins}/>
+      </>
+    ) : (
+      <Spinner message='Loading more pins..'></Spinner>
+    )}
+    </>
   )
 }
 
